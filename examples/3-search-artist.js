@@ -1,4 +1,4 @@
-var SearchArtist = require('../src/SearchArtist.js').SearchArtist;
+var SearchArtist = require('../src/SearchArtist.js');
 
 s = new SearchArtist();
 s.name('blind guardian');

@@ -1,4 +1,4 @@
-var Search = require('./Search.js').Search;
+var Search = require('./Search.js');
 
 class SearchWork extends Search 
 {
@@ -38,4 +38,4 @@ class SearchWork extends Search
 
 SearchWork.prototype.type = 'work';
 
-module.exports.SearchWork = SearchWork;
+module.exports = SearchWork;

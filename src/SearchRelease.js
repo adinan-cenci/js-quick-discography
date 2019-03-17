@@ -1,4 +1,4 @@
-var Search = require('./Search.js').Search;
+var Search = require('./Search.js');
 
 class SearchRelease extends Search 
 {
@@ -48,4 +48,4 @@ SearchRelease.prototype.fields =
     'status'            : 'official'
 };
 
-module.exports.SearchRelease = SearchRelease;
+module.exports = SearchRelease;

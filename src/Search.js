@@ -140,4 +140,4 @@ Search.createRequestUrl = function(type, fields, offset = 0, limit = 50)
     return 'https://musicbrainz.org/ws/2/'+type+'?query='+encodeURIComponent(query)+'&offset='+offset+'&limit='+limit;
 };
 
-module.exports.Search = Search;
+module.exports = Search;

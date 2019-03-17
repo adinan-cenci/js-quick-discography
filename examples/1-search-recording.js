@@ -1,4 +1,4 @@
-var SearchRecording = require('../src/SearchRecording.js').SearchRecording;
+var SearchRecording = require('../src/SearchRecording.js');
 
 s = new SearchRecording();
 s.title('mirror mirror').artist('blind guardian');

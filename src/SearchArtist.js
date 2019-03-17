@@ -1,4 +1,4 @@
-var Search = require('./Search.js').Search;
+var Search = require('./Search.js');
 
 class SearchArtist extends Search 
 {
@@ -34,4 +34,4 @@ class SearchArtist extends Search
 
 SearchArtist.prototype.type = 'artist';
 
-module.exports.SearchArtist = SearchArtist;
+module.exports = SearchArtist;

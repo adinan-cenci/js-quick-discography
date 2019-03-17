@@ -1,4 +1,4 @@
-var SearchWork = require('../src/SearchWork.js').SearchWork;
+var SearchWork = require('../src/SearchWork.js');
 
 s = new SearchWork();
 s.work('Frozen');
