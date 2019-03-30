@@ -1,6 +1,6 @@
 var Search = require('./Search.js');
 
-class SearchRelease extends Search 
+class SearchRelease extends Search
 {
     reid(reid) { this.fields.reid = reid; return this;}
     release(release) { this.fields.release = release; return this;}
@@ -15,22 +15,22 @@ class SearchRelease extends Search
     title(title) { this.fields.release = title; return this;}
     artistId(artistId) { this.fields.arid = artistId; return this;}
 
-    parseXml() 
-    {        
+    parseXml()
+    {
         var results    = [];
         var select     = this.newXpathSelect();
         var gxi        = this;
 
-        select('//x:release', this.dom).forEach(function(release) 
+        select('//x:release', this.dom).forEach(function(release)
         {
-            var r = 
+            var r =
             {
-                'id'        : release.getAttributeNode('id').nodeValue, 
-                'title'     : gxi.getValue(release, 'x:title'), 
-                'date'      : gxi.getValue(release, 'x:date'), 
-                'artist'    : gxi.getValue(release, 'x:artist-credit/x:name-credit/x:artist/x:name'), 
-                'type'      : gxi.getValue(release, 'x:status'), 
-                'status'    : gxi.getValue(release, '//x:primary-type')
+                'id'        : release.getAttributeNode('id').nodeValue,
+                'title'     : gxi.getValue(release, 'x:title'),
+                'date'      : gxi.getValue(release, 'x:date'),
+                'artist'    : gxi.getValue(release, 'x:artist-credit/x:name-credit/x:artist/x:name'),
+                'type'      : gxi.getValue(release, '//x:primary-type'),
+                'status'    : gxi.getValue(release, 'x:status')
             };
 
             results.push(r);
@@ -38,13 +38,28 @@ class SearchRelease extends Search
 
         return results;
     }
+
+    uniqueTitle(value, index, self)
+    {
+        for (var x in self) {
+            if (x == index) {
+                continue;
+            }
+
+            if (value.title == self[x].title && index > x) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 SearchRelease.prototype.type = 'release';
-SearchRelease.prototype.fields = 
+SearchRelease.prototype.fields =
 {
-    'query'             : '', 
-    'primarytype'       : 'album', 
+    'query'             : '',
+    'primarytype'       : 'album',
     'status'            : 'official'
 };
 
