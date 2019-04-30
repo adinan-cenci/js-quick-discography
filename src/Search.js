@@ -8,7 +8,10 @@ class Search
 {
     constructor()
     {
-        this.dom = null;
+        this.offset = 0;
+        this.limit  = 50;
+        this.fields = { query: '' };
+        this.dom    = null;
     }
 
     query(q)
@@ -31,16 +34,19 @@ class Search
 
     async search()
     {
-        var gxi = this;
         return Search.makeRequest(this.getRequestUrl(), {
-            headers: {
-                'user-agent': 'JustTestingTheApi/0.1.0 ( adinancenci@gmail.com )'
-            }
-        }).then(function(xml)
+            headers: { 'user-agent': 'QuickDiscography/0.1.0 ( adinancenci@gmail.com )' }
+        }).then( (xml) =>
         {
             var parser      = new DOMParser();
-            gxi.dom         = parser.parseFromString(xml, 'text/xml');
-            return gxi.parseXml();
+            this.dom        = parser.parseFromString(xml, 'text/xml');
+
+            if (! this.dom.documentElement) {
+                throw 'Invalid XML';
+                return [];
+            }
+
+            return this.parseXml();
         });
     }
 
@@ -76,13 +82,6 @@ class Search
     }
 }
 
-Search.prototype.offset   = 0;
-Search.prototype.limit    = 50;
-Search.prototype.fields   =
-{
-    query: ''
-};
-
 Search.makeRequest = async function(address, options = {})
 {
     var myUrl     = url.parse(address);
@@ -98,7 +97,7 @@ Search.makeRequest = async function(address, options = {})
 
     var options = {...defaultOptions, ...options};
 
-    return new Promise(function(success, fail)
+    return new Promise(async function(success, fail)
     {
         protocol.get(options, (res) =>
         {
@@ -119,6 +118,9 @@ Search.makeRequest = async function(address, options = {})
             {
                 success(rawData);
             });
+
+        }).on('error', (e) => {
+            fail(e.message);
         });
     });
 };
@@ -140,7 +142,7 @@ Search.arrayToLuceneQuery = function(array)
 
 Search.createRequestUrl = function(type, fields, offset = 0, limit = 50)
 {
-    var query  = Search.arrayToLuceneQuery(fields);
+    var query = Search.arrayToLuceneQuery(fields);
     return 'https://musicbrainz.org/ws/2/'+type+'?query='+encodeURIComponent(query)+'&offset='+offset+'&limit='+limit;
 };
 

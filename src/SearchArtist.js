@@ -1,6 +1,6 @@
 var Search = require('./Search.js');
 
-class SearchArtist extends Search 
+class SearchArtist extends Search
 {
     arid(arid) { this.fields.arid = arid; return this; }
     artist(artist) { this.fields.artist = artist; return this; }
@@ -17,12 +17,12 @@ class SearchArtist extends Search
         var select     = this.newXpathSelect();
         var gxi        = this;
 
-        select('//x:artist-list/x:artist', this.dom).forEach(function(artist) 
+        select('//x:artist-list/x:artist', this.dom).forEach(function(artist)
         {
-            var r = 
+            var r =
             {
-                'id'        : artist.getAttributeNode('id').nodeValue, 
-                'name'      : gxi.getValue(artist, 'x:name') 
+                'id'        : artist.getAttributeNode('id').nodeValue,
+                'name'      : gxi.getValue(artist, 'x:name')
             };
 
             results.push(r);
