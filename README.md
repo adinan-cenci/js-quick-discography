@@ -8,14 +8,14 @@ A small library to retrieve basic information from [MusicBrainz](https://musicbr
 
 ```js
 const quickDisc = require('quick-discography');
-var artists 	= new quickDisc.SearchArtist();
+var artists     = new quickDisc.SearchArtist();
 
 //-----------
 
 artists
-.artist('blind') 		// The name
-.artistaccent('blind') 	// The name with accented characters
-.type('group'); 		// Person, group... Defaults to "artist"
+.artist('blind')        // The name
+.artistaccent('blind')  // The name with accented characters
+.type('group');         // Person, group... Defaults to "artist"
 
 //-----------
 
@@ -34,13 +34,13 @@ var releases = new quickDisc.SearchRelease();
 //-----------
 
 releases
-.release(release) 				// The title
-.releaseaccent(releaseaccent) 	// The title with accented characters
-.arid(arid) 					// The artist's id
-.artist(artist) 				// As in the band
-.artistName(artistName) 		// An artist on the release
-.primaryType(primaryType) 		// Album, single, ep, other. Defaults to "album"
-.status(status); 				// Official, promotion, Bootleg, Pseudo-Release. Defaults to "official"
+.release(release)               // The title
+.releaseaccent(releaseaccent)   // The title with accented characters
+.arid(arid)                     // The artist's id
+.artist(artist)                 // As in the band
+.artistName(artistName)         // An artist on the release
+.primaryType(primaryType)       // Album, single, ep, other. Defaults to "album"
+.status(status);                // Official, promotion, Bootleg, Pseudo-Release. Defaults to "official"
 
 //-----------
 
@@ -59,13 +59,13 @@ var recordings = new quickDisc.SearchRecording();
 //-----------
 
 recordings
-.recording(recording) 				// The title
-.recordingaccent(recordingaccent) 	// The title with accented characters
-.arid(arid) 						// The artist's id
-.artist(artist) 					// The artist's name
-.artistName(artistName) 			// An artist on the recording
-.reid(reid) 						// The release's id
-.release(release) 					// The release's title
+.recording(recording)               // The title
+.recordingaccent(recordingaccent)   // The title with accented characters
+.arid(arid)                         // The artist's id
+.artist(artist)                     // The artist's name
+.artistName(artistName)             // An artist on the recording
+.reid(reid)                         // The release's id
+.release(release)                   // The release's title
 
 //-----------
 
@@ -81,4 +81,3 @@ recordings.search()
 ```cdm
 npm i adinan-cenci/js-quick-discography
 ```
-
