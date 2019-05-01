@@ -1,5 +1,7 @@
 # Quick discography
 
+~Draft~
+
 A small library to retrieve basic information from [MusicBrainz](https://musicbrainz.org/), the open music encyclopedia.
 
 
@@ -14,8 +16,8 @@ var artists     = new quickDisc.SearchArtist();
 
 artists
 .artist('blind')        // The name
-.artistaccent('blind')  // The name with accented characters
-.type('group');         // Person, group... Defaults to "artist"
+.artistAccent('blind')  // The name with accented characters
+.type('group');         // Person, group...
 
 //-----------
 

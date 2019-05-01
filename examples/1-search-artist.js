@@ -1,7 +1,7 @@
 var SearchArtist = require('../src/SearchArtist.js');
 
 s = new SearchArtist();
-s.name('blind guardian');
+s.name('blind guardian').complete();
 
 
 s.search()

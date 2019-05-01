@@ -1,17 +1,41 @@
+const proxy    = require('./MagicMethodProxy.js');
 const http     = require('http');
 const https    = require('https');
 const url      = require('url');
 var DOMParser  = require('xmldom').DOMParser;
 var xpath      = require('xpath');
 
+/*
+https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2
+https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
+*/
+
 class Search
 {
     constructor()
     {
-        this.offset = 0;
-        this.limit  = 50;
-        this.fields = { query: '' };
-        this.dom    = null;
+        this.offset     = 0;
+        this.limit      = 50;
+        this.dom        = null;
+        this.minimal    = true;
+
+        return new Proxy(this, proxy);
+    }
+
+    __call(method, args, proxy)
+    {
+        if (this.fields[method] === undefined) {
+            throw 'Method "'+method+'" is undefined';
+        }
+
+        // aliases
+        if (typeof this.fields[method] == 'string') {
+            method = this.fields[method];
+        }
+
+        this.fields[method] = this.luceneObject(args);
+
+        return proxy;
     }
 
     query(q)
@@ -29,6 +53,18 @@ class Search
     limit(limit)
     {
         this.limit = limit;
+        return this;
+    }
+
+    minimal(bool = true)
+    {
+        this.minimal = bool;
+        return this;
+    }
+
+    complete(bool = true)
+    {
+        this.minimal = !bool;
         return this;
     }
 
@@ -50,9 +86,24 @@ class Search
         });
     }
 
+    parseXml()
+    {
+        var results    = [];
+        var select     = this.newXpathSelect();
+        var getInfo    = this.minimal ? this.minimalInformation.bind(this) : this.completeInformation.bind(this);
+
+        select(this.getXpath(), this.dom).forEach( (entry) =>
+        {
+            results.push(getInfo(entry));
+        });
+
+        return results;
+    }
+
     getRequestUrl()
     {
-        return Search.createRequestUrl(this.type, this.fields, this.offset, this.limit);
+        var query = this.luceneQuery();
+        return Search.createRequestUrl(this.type, query, this.offset, this.limit);
     }
 
     newXpathSelect()
@@ -70,6 +121,7 @@ class Search
     getValue(node, xpath)
     {
         var nodes = this.getNodes(node, xpath);
+
         if (! nodes.length) {
             return null;
         }
@@ -79,6 +131,87 @@ class Search
         }
 
         return null;
+    }
+
+    getValues(node, xpath)
+    {
+        var nodes = this.getNodes(node, xpath);
+
+        if (! nodes.length) {
+            return null; // in JS empty arrays evaluate to true
+        }
+
+        var values = [];
+
+        for (let x = 0; x < nodes.length; x++) {
+            values.push(nodes[x].firstChild.data);
+        }
+
+        return values;
+    }
+
+    getAttrValue(node, attr)
+    {
+        var nodeAttr = node.getAttributeNode(attr);
+
+        if (! nodeAttr) {
+            return null;
+        }
+
+        return nodeAttr.nodeValue;
+    }
+
+    luceneObject(args)
+    {
+        if (Array.isArray(args[0])) {
+            return {
+                value: args[0],
+                conjunction: (args[1] ? args[1] : 'OR')
+            };
+        }
+
+        if (this.isObject(args[0])) {
+            return {
+                value: args[0],
+            };
+        }
+
+        return {
+            value: args[0]
+        };
+    }
+
+    luceneQuery()
+    {
+        var q = [];
+
+        for (let pr in this.fields) {
+            if (this.fields[pr] == null || typeof this.fields[pr] == 'string') {
+                continue;
+            }
+
+            q.push(this.luceneObjectToString(pr, this.fields[pr]));
+        }
+
+        return q.join(' AND ');
+    }
+
+    luceneObjectToString(field, object)
+    {
+        if (Array.isArray(object.value)) {
+            return '('+field+':"'+object.value.join('" '+object.conjunction+' '+field+':"')+'")';
+        }
+
+        if (this.isObject(object.value)) {
+            return field+':['+object.value.min+' TO '+object.value.max+']';
+        }
+
+        return field+':"'+object.value+'"';
+    }
+
+    isObject(data)
+    {
+        return typeof data == 'object';
     }
 }
 
@@ -125,24 +258,8 @@ Search.makeRequest = async function(address, options = {})
     });
 };
 
-Search.arrayToLuceneQuery = function(array)
+Search.createRequestUrl = function(type, query, offset = 0, limit = 50)
 {
-    if (array.query.length) {
-        return array.query;
-    }
-
-    var a = [];
-    for(key in array) {
-        if (! array[key].length) { continue; }
-        a.push(key+':"'+array[key]+'"');
-    }
-
-    return a.join(' AND ');
-};
-
-Search.createRequestUrl = function(type, fields, offset = 0, limit = 50)
-{
-    var query = Search.arrayToLuceneQuery(fields);
     return 'https://musicbrainz.org/ws/2/'+type+'?query='+encodeURIComponent(query)+'&offset='+offset+'&limit='+limit;
 };
 
