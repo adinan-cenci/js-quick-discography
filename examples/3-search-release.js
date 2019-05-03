@@ -1,4 +1,4 @@
-var SearchRelease = require('../src/SearchRelease.js');
+const SearchRelease = require('../src/SearchRelease.js');
 
 s = new SearchRelease();
 s.artist('blind guardian');

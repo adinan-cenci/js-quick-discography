@@ -11,11 +11,11 @@ class SearchRelease extends Search
     {
         return {
             'id'        : this.getAttrValue(release, 'id'),
-            'title'     : this.getValue(release, 'x:title'),
-            'date'      : this.getValue(release, 'x:date'),
-            'artist'    : this.getValue(release, 'x:artist-credit/x:name-credit/x:artist/x:name'),
-            'type'      : this.getValue(release, 'x:primary-type'),
-            'status'    : this.getValue(release, 'x:status')
+            'title'     : this.getElementValue(release, 'x:title'),
+            'date'      : this.getElementValue(release, 'x:date'),
+            'artist'    : this.getElementValue(release, 'x:artist-credit/x:name-credit/x:artist/x:name'),
+            'type'      : this.getElementValue(release, 'x:primary-type'),
+            'status'    : this.getElementValue(release, 'x:status')
         };
     }
 }
@@ -23,19 +23,19 @@ class SearchRelease extends Search
 SearchRelease.prototype.type    = 'release';
 SearchRelease.prototype.fields  =
 {
-    reid            : null,
-    release         : null,
-    releaseaccent   : null,
-    arid            : null,
-    artist          : null,
+    reid            : null, // Music Brainz id
+    release         : null, // title
+    releaseaccent   : null, // title with any accent characters
+    arid            : null, // artist's Music Brainz id
+    artist          : null, // artist's name
     artistname      : null,
-    primarytype     : null,
-    status          : null,
+    primarytype     : null, // album, single, ep, other
+    status          : null, // official, promotion, Bootleg, Pseudo-Release
 
     // aliases
     id:             'reid',
     title:          'release',
-    artistId:       'arid', 
+    artistid:       'arid',
 };
 
 module.exports = SearchRelease;

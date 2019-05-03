@@ -1,4 +1,4 @@
-var SearchReleaseGroup = require('../src/SearchReleaseGroup.js');
+const SearchReleaseGroup = require('../src/SearchReleaseGroup.js');
 
 s = new SearchReleaseGroup();
 s.artist('blind guardian').complete();

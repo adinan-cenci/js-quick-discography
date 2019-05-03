@@ -18,12 +18,15 @@ class Search
         this.limit      = 50;
         this.dom        = null;
         this.minimal    = true;
+        this.query      = null;
 
         return new Proxy(this, proxy);
     }
 
     __call(method, args, proxy)
     {
+        method = method.toLowerCase();
+
         if (this.fields[method] === undefined) {
             throw 'Method "'+method+'" is undefined';
         }
@@ -33,14 +36,14 @@ class Search
             method = this.fields[method];
         }
 
-        this.fields[method] = this.luceneObject(args);
+        this.fields[method] = this.newClause(args);
 
         return proxy;
     }
 
     query(q)
     {
-        this.fields.query = q;
+        this.query = q;
         return this;
     }
 
@@ -102,13 +105,13 @@ class Search
 
     getRequestUrl()
     {
-        var query = this.luceneQuery();
+        var query = this.getLuceneQuery();
         return Search.createRequestUrl(this.type, query, this.offset, this.limit);
     }
 
     newXpathSelect()
     {
-        var defaultNsUri  = this.dom.documentElement.lookupNamespaceURI('');
+        var defaultNsUri = this.dom.documentElement.lookupNamespaceURI('');
         return xpath.useNamespaces({'x': defaultNsUri});
     }
 
@@ -118,7 +121,7 @@ class Search
         return select(xpath, node);
     }
 
-    getValue(node, xpath)
+    getElementValue(node, xpath)
     {
         var nodes = this.getNodes(node, xpath);
 
@@ -133,7 +136,7 @@ class Search
         return null;
     }
 
-    getValues(node, xpath)
+    getElementsValues(node, xpath)
     {
         var nodes = this.getNodes(node, xpath);
 
@@ -161,12 +164,12 @@ class Search
         return nodeAttr.nodeValue;
     }
 
-    luceneObject(args)
+    newClause(args)
     {
         if (Array.isArray(args[0])) {
             return {
-                value: args[0],
-                conjunction: (args[1] ? args[1] : 'OR')
+                value       : args[0],
+                conjunction : (args[1] ? args[1] : 'OR')
             };
         }
 
@@ -181,8 +184,12 @@ class Search
         };
     }
 
-    luceneQuery()
+    getLuceneQuery()
     {
+        if (this.query) {
+            return this.query;
+        }
+
         var q = [];
 
         for (let pr in this.fields) {
@@ -190,13 +197,13 @@ class Search
                 continue;
             }
 
-            q.push(this.luceneObjectToString(pr, this.fields[pr]));
+            q.push(this.objectToLuceneClause(pr, this.fields[pr]));
         }
 
         return q.join(' AND ');
     }
 
-    luceneObjectToString(field, object)
+    objectToLuceneClause(field, object)
     {
         if (Array.isArray(object.value)) {
             return '('+field+':"'+object.value.join('" '+object.conjunction+' '+field+':"')+'")';

@@ -18,7 +18,7 @@ class SearchArtist extends Search
     {
         return {
             'id'        : this.getAttrValue(entry, 'id'),
-            'name'      : this.getValue(entry, 'x:name')
+            'name'      : this.getElementValue(entry, 'x:name')
         };
     }
 
@@ -27,19 +27,19 @@ class SearchArtist extends Search
         return {
             'id'        : this.getAttrValue(entry, 'id'),
             'type'      : this.getAttrValue(entry, 'type'),
-            'name'      : this.getValue(entry, 'x:name'),
-            'gender'    : this.getValue(entry, 'x:gender'),
-            'area'      : this.getValue(entry, 'x:area/x:name'),
-            'country'   : this.getValue(entry, 'x:country'),
+            'name'      : this.getElementValue(entry, 'x:name'),
+            'gender'    : this.getElementValue(entry, 'x:gender'),
+            'area'      : this.getElementValue(entry, 'x:area/x:name'),
+            'country'   : this.getElementValue(entry, 'x:country'),
 
-            'ipi'       : this.getValue(entry, 'x:ipi-list/x:ipi'),
+            'ipi'       : this.getElementValue(entry, 'x:ipi-list/x:ipi'),
 
-            'begin'     : this.getValue(entry, 'x:life-span/x:begin'),
-            'end'       : this.getValue(entry, 'x:life-span/x:begin'),
-            'beginArea' : this.getValue(entry, 'x:begin-area/x:name'),
-            'endArea'   : this.getValue(entry, 'x:end-area/x:name'),
-            'tags'      : this.getValues(entry, 'x:tag-list/x:tag/x:name'),
-            'alias'     : this.getValues(entry, 'x:alias-list/x:alias')
+            'begin'     : this.getElementValue(entry, 'x:life-span/x:begin'),
+            'end'       : this.getElementValue(entry, 'x:life-span/x:begin'),
+            'beginArea' : this.getElementValue(entry, 'x:begin-area/x:name'),
+            'endArea'   : this.getElementValue(entry, 'x:end-area/x:name'),
+            'tags'      : this.getElementsValues(entry, 'x:tag-list/x:tag/x:name'),
+            'alias'     : this.getElementsValues(entry, 'x:alias-list/x:alias')
         };
     }
 }
@@ -47,23 +47,22 @@ class SearchArtist extends Search
 SearchArtist.prototype.type     = 'artist';
 SearchArtist.prototype.fields   =
 {
-    arid            : null,
+    arid            : null, // Music Brainz id
     artist          : null, // name
     artistaccent    : null, // name of the artist accented characters
     alias           : null, // previous/alternative names or mispellings
     type            : null, // Person, Group, Orchestra, Choir, Character, Other
+    gender          : null, // male/female
     area            : null, // area mainly associated with the artist
-    country         : null,
+    country         : null, // same as aboce, 2 letter ISO 3166-1 code
 
     // Person: birth and death, Group: foundation and dissolution
     begin           : null,
     end             : null,
-
     beginarea       : null,
     endarea         : null,
 
-    gender          : null,
-    tag             : null,
+    tag             : null, // musical genre, country, others
     ipi             : null,
 
     // aliases

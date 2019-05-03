@@ -1,8 +1,12 @@
-var SearchArtist = require('../src/SearchArtist.js');
+const SearchArtist = require('../src/SearchArtist.js');
+var s;
+
+//----------------------
 
 s = new SearchArtist();
-s.name('blind guardian').complete();
+s.name('Veonity');
 
+//----------------------
 
 s.search()
 .then(results => console.log(results))

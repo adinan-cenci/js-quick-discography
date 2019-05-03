@@ -26,7 +26,7 @@ class SearchReleaseGroup extends Search
     {
         return {
             'id'        : this.getAttrValue(entry, 'id'),
-            'title'     : this.getValue(entry, 'x:title')
+            'title'     : this.getElementValue(entry, 'x:title')
         };
     }
 
@@ -35,9 +35,9 @@ class SearchReleaseGroup extends Search
         return {
             'id'            : this.getAttrValue(entry, 'id'),
             'type'          : this.getAttrValue(entry, 'type'),
-            'title'         : this.getValue(entry, 'x:title'),
-            'primaryType'   : this.getValue(entry, 'x:primary-type'),
-            'secondaryType' : this.getValues(entry, 'x:secondary-type-list/x:secondary-type'),
+            'title'         : this.getElementValue(entry, 'x:title'),
+            'primaryType'   : this.getElementValue(entry, 'x:primary-type'),
+            'secondaryType' : this.getElementsValues(entry, 'x:secondary-type-list/x:secondary-type'),
         };
     }
 }
@@ -45,20 +45,20 @@ class SearchReleaseGroup extends Search
 SearchReleaseGroup.prototype.type   = 'release-group';
 SearchReleaseGroup.prototype.fields =
 {
-    rgid                : null,
+    rgid                : null, // Music Brainz id
     releasegroup        : null, // title
     releasegroupaccent  : null, // title with any accent characters retained
-    arid                : null, // artist id
-    artist              : null,
+    arid                : null, // artist's Music Brainz id
+    artist              : null, // artist's name
     artistname          : null,
     creditname          : null,
     primarytype         : null,
     secondarytype       : null,
-    releases            : null, // number of releases in this release group
-    reid                : null, // A release that appears in the release group
-    release             : null, // name of a release that appears in the release group
-    status              : null,
-    tag                 : null
+    releases            : null,
+    reid                : null,
+    release             : null,
+    status              : null, // official, promotion, Bootleg, Pseudo-Release
+    tag                 : null  // musical genre, country, others
 }
 
 module.exports = SearchReleaseGroup;
