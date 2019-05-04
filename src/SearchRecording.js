@@ -13,18 +13,16 @@ class SearchRecording extends Search
             'title'     : this.getElementValue(entry, 'x:title'),
             'artist'    : this.getElementValue(entry, 'x:artist-credit/x:name-credit/x:artist/x:name'),
             'album'     : this.getElementValue(entry, 'x:release-list/x:release/x:title'),
+            'position'  : Search.parseInt(this.getElementValue(entry, "x:release-list/x:release/x:medium-list/x:medium/x:track-list[../x:format='CD']/x:track/x:number"))
         };
     }
 
     completeInformation(entry)
     {
-        return {
-            'title'             : this.getElementValue(entry, 'x:title'),
+		return {...this.minimalInformation(entry), ...{
             'length'            : this.getElementValue(entry, 'x:length'),
-            'disambiguation'    : this.getElementValue(entry, 'x:disambiguation'),
-            'artist'            : this.getElementValue(entry, 'x:artist-credit/x:name-credit/x:artist/x:name'),
-            'album'             : this.getElementValue(entry, 'x:release-list/x:release/x:title'),
-        };
+            'disambiguation'    : this.getElementValue(entry, 'x:disambiguation')
+        }};
     }
 }
 
@@ -68,7 +66,8 @@ SearchRecording.prototype.fields    =
     title               : 'recording',
     releaseid           : 'reid',
     releasegroupid      : 'rgid',
-    duration            : 'dur'
+    duration            : 'dur',
+    tags                : 'tag'
 }
 
 module.exports = SearchRecording;

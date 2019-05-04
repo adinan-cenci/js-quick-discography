@@ -270,4 +270,13 @@ Search.createRequestUrl = function(type, query, offset = 0, limit = 50)
     return 'https://musicbrainz.org/ws/2/'+type+'?query='+encodeURIComponent(query)+'&offset='+offset+'&limit='+limit;
 };
 
+Search.parseInt = function(str)
+{
+    if (str === null || str === undefined) {
+        return 0;
+    }
+    
+    return parseInt(str.replace(/[^0-9]/g, ''));
+}
+
 module.exports = Search;

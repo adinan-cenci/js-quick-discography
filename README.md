@@ -1,12 +1,12 @@
 # Quick discography
 
-~Draft~
-
-A small library to retrieve basic information from [MusicBrainz](https://musicbrainz.org/), the open music encyclopedia.
+[ ========== DRAFT ========== ]
 
 
 
-### Searching for artists
+This is a small library to retrieve basic information from [MusicBrainz](https://musicbrainz.org/), the open music encyclopedia.
+
+### Searching for an artists
 
 ```js
 const quickDisc = require('quick-discography');
@@ -15,41 +15,39 @@ var artists     = new quickDisc.SearchArtist();
 //-----------
 
 artists
-.artist('blind')        // The name
-.artistAccent('blind')  // The name with accented characters
-.type('group');         // Person, group...
+.artist('Leo Maia')         // The name
+.artistAccent('Léo Maia')  	// The name with accented characters retained
+.type('Person');            // Person, group...
 
 //-----------
 
 artists.search()
-.then(results => console.log(results))
-.catch(er => console.log(er));
+.then(results => console.log(results));
 ```
 
+For more details and how to refine your terms, [click here](artists-in-depth.md).
 
 
-### Searching for releases
+
+### Searching for release groups ( albums )
 
 ```js
-var releases = new quickDisc.SearchRelease();
+var releasesGroups = new quickDisc.SearchReleaseGroup();
 
 //-----------
 
-releases
-.release(release)               // The title
-.releaseaccent(releaseaccent)   // The title with accented characters
-.arid(arid)                     // The artist's id
-.artist(artist)                 // As in the band
-.artistName(artistName)         // An artist on the release
-.primaryType(primaryType)       // Album, single, ep, other. Defaults to "album"
-.status(status);                // Official, promotion, Bootleg, Pseudo-Release. Defaults to "official"
+releasesGroups
+.artist('Blind Guardian')       	// The artist's name
+.primaryType('Album')               // Album, single, ep, other. Defaults to "album"
+.status('Official');                // Official, promotion, Bootleg, Pseudo-Release.
 
 //-----------
 
 releases.search()
-.then(results => console.log(results))
-.catch(er => console.log(er));
+.then(results => console.log(results));
 ```
+
+For more details, click here.
 
 
 
@@ -61,24 +59,20 @@ var recordings = new quickDisc.SearchRecording();
 //-----------
 
 recordings
-.recording(recording)               // The title
-.recordingaccent(recordingaccent)   // The title with accented characters
-.arid(arid)                         // The artist's id
-.artist(artist)                     // The artist's name
-.artistName(artistName)             // An artist on the recording
-.reid(reid)                         // The release's id
-.release(release)                   // The release's title
+.artist('Blind Guardian')               // The artist's name
+.release('Nightfall in Middle-Earth')   // The release's name ( not the release group )
 
 //-----------
 
 recordings.search()
-.then(results => console.log(results))
-.catch(er => console.log(er));
+.then(results => console.log(results));
 ```
 
 
 
 ## How to install
+
+Use npm:
 
 ```cdm
 npm i adinan-cenci/js-quick-discography

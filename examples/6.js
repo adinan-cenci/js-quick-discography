@@ -1,7 +1,23 @@
-var SearchArtist = require('../src/SearchArtist.js');
+const SearchArtist          = require('../src/SearchArtist.js');
+const SearchReleaseGroup    = require('../src/SearchReleaseGroup.js');
+const SearchRelease         = require('../src/SearchRelease.js');
+const SearchRecording       = require('../src/SearchRecording.js');
 
-s = new SearchArtist();
+//--------------------
 
-s.tag(['metal', 'german']).begin({min: 1980, max: 2000})
+sArtist         = new SearchArtist();
+sReleaseGroup   = new SearchReleaseGroup();
+sRelease        = new SearchRelease();
+sRecording      = new SearchRecording();
 
-console.log(s.getRequestUrl());
+//--------------------
+
+sRelease.title('Nightfall in Middle-Earth').artist('Blind Guardian').search().then( (releases) =>
+{
+    sRecording.complete();
+    sRecording.releaseId(releases[0].id).search().then( (recordings) =>
+    {
+        console.log(releases[0].id);
+        console.log(recordings);
+    })
+})

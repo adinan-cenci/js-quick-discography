@@ -24,10 +24,8 @@ class SearchArtist extends Search
 
     completeInformation(entry)
     {
-        return {
-            'id'        : this.getAttrValue(entry, 'id'),
+        return {...this.minimalInformation(entry), ...{
             'type'      : this.getAttrValue(entry, 'type'),
-            'name'      : this.getElementValue(entry, 'x:name'),
             'gender'    : this.getElementValue(entry, 'x:gender'),
             'area'      : this.getElementValue(entry, 'x:area/x:name'),
             'country'   : this.getElementValue(entry, 'x:country'),
@@ -40,7 +38,7 @@ class SearchArtist extends Search
             'endArea'   : this.getElementValue(entry, 'x:end-area/x:name'),
             'tags'      : this.getElementsValues(entry, 'x:tag-list/x:tag/x:name'),
             'alias'     : this.getElementsValues(entry, 'x:alias-list/x:alias')
-        };
+        }};
     }
 }
 
@@ -50,11 +48,12 @@ SearchArtist.prototype.fields   =
     arid            : null, // Music Brainz id
     artist          : null, // name
     artistaccent    : null, // name of the artist accented characters
-    alias           : null, // previous/alternative names or mispellings
+    alias           : null, // previous/alternative names or misspellings
+    comment         : null, // the artist's disambiguation comment
     type            : null, // Person, Group, Orchestra, Choir, Character, Other
     gender          : null, // male/female
     area            : null, // area mainly associated with the artist
-    country         : null, // same as aboce, 2 letter ISO 3166-1 code
+    country         : null, // same as above, 2 letter ISO 3166-1 code
 
     // Person: birth and death, Group: foundation and dissolution
     begin           : null,
@@ -68,7 +67,8 @@ SearchArtist.prototype.fields   =
     // aliases
     id              : 'arid',
     name            : 'artist',
-    title           : 'artist'
+    title           : 'artist',
+    tags            : 'tag'
 }
 
 module.exports = SearchArtist;

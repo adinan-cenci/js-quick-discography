@@ -32,13 +32,11 @@ class SearchReleaseGroup extends Search
 
     completeInformation(entry)
     {
-        return {
-            'id'            : this.getAttrValue(entry, 'id'),
+        return {...this.minimalInformation(entry), ...{
             'type'          : this.getAttrValue(entry, 'type'),
-            'title'         : this.getElementValue(entry, 'x:title'),
             'primaryType'   : this.getElementValue(entry, 'x:primary-type'),
             'secondaryType' : this.getElementsValues(entry, 'x:secondary-type-list/x:secondary-type'),
-        };
+        }};
     }
 }
 
@@ -57,8 +55,15 @@ SearchReleaseGroup.prototype.fields =
     releases            : null,
     reid                : null,
     release             : null,
-    status              : null, // official, promotion, Bootleg, Pseudo-Release
-    tag                 : null  // musical genre, country, others
+    status              : null, // status of a release that appears within the release group
+    tag                 : null, // musical genre, country, others
+
+    // aliases
+    id                  : 'rgid',
+    artistid            : 'arid',
+    title               : 'releasegroup',
+    name                : 'releasegroup',
+    tags                : 'tag'
 }
 
 module.exports = SearchReleaseGroup;

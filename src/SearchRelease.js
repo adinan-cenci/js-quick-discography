@@ -10,32 +10,39 @@ class SearchRelease extends Search
     minimalInformation(entry)
     {
         return {
-            'id'        : this.getAttrValue(release, 'id'),
-            'title'     : this.getElementValue(release, 'x:title'),
-            'date'      : this.getElementValue(release, 'x:date'),
-            'artist'    : this.getElementValue(release, 'x:artist-credit/x:name-credit/x:artist/x:name'),
-            'type'      : this.getElementValue(release, 'x:primary-type'),
-            'status'    : this.getElementValue(release, 'x:status')
+            'id'        : this.getAttrValue(entry, 'id'),
+            'title'     : this.getElementValue(entry, 'x:title'),
+            'artist'    : this.getElementValue(entry, 'x:artist-credit/x:name-credit/x:artist/x:name')
         };
+    }
+
+    completeInformation(entry)
+    {
+        return {...this.minimalInformation(entry), ...{
+            'date'      : this.getElementValue(entry, 'x:date'),
+            'type'      : this.getElementValue(entry, 'x:primary-type'),
+            'status'    : this.getElementValue(entry, 'x:status')
+        }};
     }
 }
 
 SearchRelease.prototype.type    = 'release';
 SearchRelease.prototype.fields  =
 {
-    reid            : null, // Music Brainz id
-    release         : null, // title
-    releaseaccent   : null, // title with any accent characters
-    arid            : null, // artist's Music Brainz id
-    artist          : null, // artist's name
+    reid            : null,         // Music Brainz id
+    release         : null,         // title
+    releaseaccent   : null,         // title with any accent characters
+    arid            : null,         // artist's Music Brainz id
+    artist          : null,         // artist's name
     artistname      : null,
-    primarytype     : null, // album, single, ep, other
-    status          : null, // official, promotion, Bootleg, Pseudo-Release
+    primarytype     : 'album',      // album, single, ep, other
+    status          : 'official',   // official, promotion, Bootleg, Pseudo-Release
 
     // aliases
-    id:             'reid',
-    title:          'release',
-    artistid:       'arid',
+    id              : 'reid',
+    title           : 'release',
+    name            : 'release',
+    artistid        : 'arid',
 };
 
 module.exports = SearchRelease;
