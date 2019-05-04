@@ -2,8 +2,6 @@
 
 [ ========== DRAFT ========== ]
 
-
-
 This is a small library to retrieve basic information from [MusicBrainz](https://musicbrainz.org/), the open music encyclopedia.
 
 ### Searching for an artists
@@ -16,7 +14,7 @@ var artists     = new quickDisc.SearchArtist();
 
 artists
 .artist('Leo Maia')         // The name
-.artistAccent('Léo Maia')  	// The name with accented characters retained
+.artistAccent('Léo Maia')   // The name with accented characters retained
 .type('Person');            // Person, group...
 
 //-----------
@@ -37,9 +35,9 @@ var releasesGroups = new quickDisc.SearchReleaseGroup();
 //-----------
 
 releasesGroups
-.artist('Blind Guardian')       	// The artist's name
-.primaryType('Album')               // Album, single, ep, other. Defaults to "album"
-.status('Official');                // Official, promotion, Bootleg, Pseudo-Release.
+.artist('Blind Guardian')   // The artist's name
+.primaryType('Album')       // Album, single, ep, other. Defaults to "album"
+.status('Official');        // Official, promotion, Bootleg, Pseudo-Release.
 
 //-----------
 
@@ -47,7 +45,7 @@ releases.search()
 .then(results => console.log(results));
 ```
 
-For more details, click here.
+For more details and how to refine your terms, [click here](release-groups-in-depth.md).
 
 
 
@@ -66,6 +64,20 @@ recordings
 
 recordings.search()
 .then(results => console.log(results));
+```
+
+For more details and how to refine your terms, [click here](recordings-in-depth.md).
+
+
+
+## Pagination
+
+The Music Brainz api supports pagination:
+
+```js
+recording
+.offset(0)
+.limit(100) // defaults to 50
 ```
 
 

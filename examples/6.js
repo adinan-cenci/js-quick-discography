@@ -12,6 +12,17 @@ sRecording      = new SearchRecording();
 
 //--------------------
 
+sArtist.tag('Power metal')
+
+// ...in Sweden, Norway, Finland and Germany...
+sArtist.country(['SE', 'NO', 'FI', 'DE'])
+
+// ...founded between 1970 and 1990
+sArtist.begin({min: 1970, max: 1990})
+
+console.log(sArtist.getLuceneQuery())
+
+/*
 sRelease.title('Nightfall in Middle-Earth').artist('Blind Guardian').search().then( (releases) =>
 {
     sRecording.complete();
@@ -21,3 +32,4 @@ sRelease.title('Nightfall in Middle-Earth').artist('Blind Guardian').search().th
         console.log(recordings);
     })
 })
+*/
