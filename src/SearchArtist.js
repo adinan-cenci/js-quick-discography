@@ -62,7 +62,7 @@ SearchArtist.prototype.fields   =
     endarea         : null,
 
     tag             : null, // musical genre, country, others
-    ipi             : null,
+    ipi             : null, // https://musicbrainz.org/doc/IPI
 
     // aliases
     id              : 'arid',

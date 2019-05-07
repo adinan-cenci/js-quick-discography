@@ -29,37 +29,37 @@ class SearchRecording extends Search
 SearchRecording.prototype.type      = 'recording';
 SearchRecording.prototype.fields    =
 {
-    rid                 : null, // Music Brainz id
-    recording           : null, // title
-    recordingaccent     : null, // title with accented characters
-    arid                : null, // artist's Music Brainz id
-    artist              : null, // artist's name
-    artistname          : null, // artist's name with accented characters
-    creditname          : null,
-    country             : null,
-    date                : null,
-    dur                 : null, // duration in milliseconds
-    format              : null,
-    isrc                : null,
-    number              : null,
-    position            : null,
-    qdur                : null,
+    rid                 : null, // The recording's Music Brainz id
+    recording           : null, // The title
+    recordingaccent     : null, // The title with accented characters retained
+    arid                : null, // The artist's Music Brainz id
+    artist              : null, // The artist's name
+    artistname          : null, // An artist on the recording
+    creditname          : null, // Name credit on the recording
+    date                : null, // The recording's release date
+    country             : null, // The release country, 2 letter ISO 3166-1 code
+    dur                 : null, // Duration in milliseconds
+    format              : null, // The release's format (CD, vinyl etc)
+    isrc                : null, // ISRC of recording
+    number              : null, // Free text track number
+    position            : null, // The medium that the recording should be found on, first medium is position 1
+    qdur                : null, // Quantized duration
 
-    rgid                : null, // release group Music Brainz id
-    primarytype         : null,
-    secondarytype       : null,
-    reid                : null, // release's Music Brainz id
-    release             : null, // release's title
+    rgid                : null, // The release group's Music Brainz id
+    primarytype         : null, // Primary type of the release group
+    secondarytype       : null, // Secondary type of the release group
+    reid                : null, // The release's Music Brainz id
+    release             : null, // The release's title
 
-    status              : null, // official, promotion, Bootleg, Pseudo-Release
-    tid                 : null,
-    tnum                : null,
+    status              : null, // The release's status (official, promotion, Bootleg, Pseudo-Release)
+    tid                 : null, // Track id
+    tnum                : null, // Track number on medium
 
-    tracks              : null,
-    tracksrelease       : null,
-    tag                 : null,
-    type                : null,
-    video               : null,
+    tracks              : null, // Number of tracks in the medium on release
+    tracksrelease       : null, // Number of tracks on release as a whole
+    tag                 : null, // Musical genre, country, others
+    type                : null, // Type of the release group before the introduction of primary and secondary type fields
+    video               : null, // True to only show video tracks
 
     // aliases
     id                  : 'rid',

@@ -1,32 +1,31 @@
 # Release Groups in depth
 
 **Preface: Release Group vs Release**
-
-[As stated in the documentation](https://musicbrainz.org/doc/Release_Group), releases and release Groups are "albums" in a general sense **BUT**: a release is a CD or a vinyl record, a release group is the overall album, it doesn't matter how many CDs or editions/versions it had.
-
-An artist says: "We've released our new album", that's a release group. The publisher says: "This album gets released next week in Japan and next month in Europe" they're referring to the different releases that belong in the mentioned release group.
+A "release group" is an album. An album may be released in different regions
+at different dates, be remastered years later, etc. Each represents a different
+"release" inside a release group.
 
 All releases are inserted in a release group even if the group is comprised of a single release.
 
 Okay, moving on...
 
 ## Searching
-
 The Music Brainz api accepts [lucene queries](https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description) and allow us to make searches based on a wide range of information. To help you build your query, Quick Discography offers a method for every parameter:
 
 | Parameter          | Description                                        | Aliases     |
 | ------------------ | -------------------------------------------------- | ----------- |
-| rgid               | Music Brainz's release group id                    | id          |
-| releasegroup       | The group's name                                   | title, name |
-| releasegroupaccent | The group's name with accented characters retained |             |
+| rgid               | The release group's Music Brainz's id              | id          |
+| releasegroup       | The title                                          | title, name |
+| releasegroupaccent | The title with accented characters retained        |             |
 | arid               | The artist's Music Brainz id                       | artistid    |
 | artist             | The artist's name                                  |             |
-| artistname         |                                                    |             |
-| creditname         |                                                    |             |
-| primarytype        | album, single, ep, other                           |             |
-| secondarytype      |                                                    |             |
-| releases           |                                                    |             |
-| reid               |                                                    |             |
+| artistname         | "Real name” of a artist included the credits       |             |
+| creditname         | In multi-artist credits, as it appears on the cover|             |
+| primarytype        | Album, single, ep, other                           |             |
+| secondarytype      | Audiobook, compilation, interview, live...         |             |
+| releases           | Number of releases in this release group           |             |
+| reid               | Music Brainz id of a release in the group          |             |
+| release            | Name of a release that appears in the release group|             |
 | status             | Status of a release within this group              |             |
 | tag                | Musical genre, country, etc                        | tags        |
 
@@ -36,7 +35,6 @@ The Music Brainz api accepts [lucene queries](https://lucene.apache.org/core/4_3
 
 
 ## How the methods work?
-
 All the methods listed above work the same, you must inform either:
 
 - A term
@@ -44,7 +42,6 @@ All the methods listed above work the same, you must inform either:
 - A range
 
 What we mean:
-
 ```js
 // Must contain "metal" in the artist's name
 releaseGroup.artist('kings')
@@ -60,7 +57,6 @@ releaseGroup.artist({min: 'A Balance of Power', max: 'Zadok'})
 ```
 
 ### Examples
-
 ```js
 // Now, let's say we want to find the Metallica's...
 releaseGroup.artist('Metallica')
@@ -73,10 +69,8 @@ releaseGroup.status('official')
 ```
 
 ### Do it yourself
-
-Maybe you rather write your own [lucene](https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description) query instead of using our helping methods?
+Maybe you rather write your own [lucene query](https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description) instead of using our helping methods?
 
 ```js
-releaseGroup.query('artist:"Metallica" AND primarytype:"album" AND status:"official"');
+releaseGroup.query('artist:"Metallica" AND primarytype:"album" AND status:"official"')
 ```
-

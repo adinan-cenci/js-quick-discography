@@ -43,20 +43,21 @@ class SearchReleaseGroup extends Search
 SearchReleaseGroup.prototype.type   = 'release-group';
 SearchReleaseGroup.prototype.fields =
 {
-    rgid                : null, // Music Brainz id
-    releasegroup        : null, // title
-    releasegroupaccent  : null, // title with any accent characters retained
-    arid                : null, // artist's Music Brainz id
-    artist              : null, // artist's name
-    artistname          : null,
-    creditname          : null,
-    primarytype         : null,
-    secondarytype       : null,
-    releases            : null,
-    reid                : null,
-    release             : null,
-    status              : null, // status of a release that appears within the release group
-    tag                 : null, // musical genre, country, others
+    rgid                : null, // The release group's Music Brainz's id
+    releasegroup        : null, // The title
+    releasegroupaccent  : null, // The title with accented characters retained
+
+    arid                : null, // The artist's Music Brainz id
+    artist              : null, // The artist's name
+    artistname          : null, // "Real name” of a artist included the credits
+    creditname          : null, // In multi-artist credits, as it appears on the cover
+    primarytype         : null, // Album, single, ep, other
+    secondarytype       : null, // Audiobook, compilation, interview, live...
+    releases            : null, // Number of releases in this release group
+    reid                : null, // Music Brainz id of a release in the group
+    release             : null, // Name of a release that appears in the release group
+    status              : null, // Status of a release that appears within the release group
+    tag                 : null, // Musical genre, country, others
 
     // aliases
     id                  : 'rgid',
