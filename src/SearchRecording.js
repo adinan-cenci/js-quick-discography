@@ -47,9 +47,9 @@ SearchRecording.prototype.fields    =
 
     rgid                : null, // release group Music Brainz id
     primarytype         : null,
-    secondaryType       : null,
+    secondarytype       : null,
     reid                : null, // release's Music Brainz id
-    release             : null, // release's name
+    release             : null, // release's title
 
     status              : null, // official, promotion, Bootleg, Pseudo-Release
     tid                 : null,

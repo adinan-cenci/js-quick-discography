@@ -75,7 +75,7 @@ For more details and how to refine your terms, [click here](recordings-in-depth.
 The Music Brainz api supports pagination:
 
 ```js
-recording
+recordings
 .offset(0)
 .limit(100) // defaults to 50
 ```

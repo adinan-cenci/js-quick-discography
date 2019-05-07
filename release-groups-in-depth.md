@@ -1,20 +1,20 @@
 # Release Groups in depth
 
-[ ========== DRAFT ========== ]
-
 **Preface: Release Group vs Release**
 
-Before we start, it is important to understand the difference between "Release Group" and "Release". Releases and Release Groups are "albums" in a general sense, **BUT**: a release is a CD or a vinyl record, a release group is the overall album, it doesn't matter how many CDs or editions/versions it had.
+[As stated in the documentation](https://musicbrainz.org/doc/Release_Group), releases and release Groups are "albums" in a general sense **BUT**: a release is a CD or a vinyl record, a release group is the overall album, it doesn't matter how many CDs or editions/versions it had.
 
-An artist says: "We've released our new album", that's a release group. The publisher says: "This album gets released next week in Japan and next month in Europe" they're referring to the different releases that belong in the above mentioned release group.
+An artist says: "We've released our new album", that's a release group. The publisher says: "This album gets released next week in Japan and next month in Europe" they're referring to the different releases that belong in the mentioned release group.
 
-All releases are inserted in a release group even if the group is comprised of a single release. Ok, moving on...
+All releases are inserted in a release group even if the group is comprised of a single release.
+
+Okay, moving on...
 
 ## Searching
 
-The Music Brainz api allow us to search for release groups based on a wide range of information and Quick Discography has a method for every parameter:
+The Music Brainz api accepts [lucene queries](https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description) and allow us to make searches based on a wide range of information. To help you build your query, Quick Discography offers a method for every parameter:
 
-| Field              | Description                                        | Aliases     |
+| Parameter          | Description                                        | Aliases     |
 | ------------------ | -------------------------------------------------- | ----------- |
 | rgid               | Music Brainz's release group id                    | id          |
 | releasegroup       | The group's name                                   | title, name |
@@ -23,19 +23,19 @@ The Music Brainz api allow us to search for release groups based on a wide range
 | artist             | The artist's name                                  |             |
 | artistname         |                                                    |             |
 | creditname         |                                                    |             |
-| primarytype        |                                                    |             |
+| primarytype        | album, single, ep, other                           |             |
 | secondarytype      |                                                    |             |
 | releases           |                                                    |             |
 | reid               |                                                    |             |
-| status             |                                                    |             |
-| tag                |                                                    | tags        |
+| status             | Status of a release within this group              |             |
+| tag                | Musical genre, country, etc                        | tags        |
 
-[Music Brainz api documentation](https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group "(target|_blank)").  
-[Music Brainz definition of release group](https://musicbrainz.org/doc/Release_Group "(target|_blank)").
+[Music Brainz's docs on release group](https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group).  
+[Music Brainz's definition of release group](https://musicbrainz.org/doc/Release_Group).
 
 
 
-## How they work?
+## How the methods work?
 
 All the methods listed above work the same, you must inform either:
 
@@ -46,42 +46,37 @@ All the methods listed above work the same, you must inform either:
 What we mean:
 
 ```js
-// Must contain "metal" in the name
-artist.name('metal')
+// Must contain "metal" in the artist's name
+releaseGroup.artist('kings')
 
-// Must contain "metal" OR "kings" in the name
-artist.name(['metal', 'kings'])
+// Must contain "metal" OR "kings" in the artist's name
+releaseGroup.artist(['metal', 'kings'])
 
-// Must contain "metal" AND "kings" in the name
-artist.name(['metal', 'kings'], 'AND')
+// Must contain "metal" AND "kings" in the artist's name
+releaseGroup.artist(['metal', 'kings'], 'AND')
 
-// Countries: from Argentina to Zimbabwe
-artist.name({min: 'AF', max: 'ZW'}); // 
+// Artist: from A to Z
+releaseGroup.artist({min: 'A Balance of Power', max: 'Zadok'})
 ```
 
 ### Examples
 
 ```js
-// Now, let's say we want to find Power Metal...
-artists.tag('Power metal')
+// Now, let's say we want to find the Metallica's...
+releaseGroup.artist('Metallica')
 
-// ...bands...
-artists.type('Group')
+// ...albuns...
+releaseGroup.primaryType('album')
 
-// ...in Sweden, Norway, Finland and Germany...
-artists.country(['SE', 'NO', 'FI', 'DE'])
-
-// ...founded between 1980 and 1990
-artists.begin({min: 1970, max: 1990})
+// ...that contain within it oficial releases...
+releaseGroup.status('official')
 ```
 
-
-
-## Do it yourself
+### Do it yourself
 
 Maybe you rather write your own [lucene](https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description) query instead of using our helping methods?
 
 ```js
-artists.query('tag:"Power metal" AND type:"Group" AND (country:"SE" OR country:"NO" OR country:"FI" OR country:"DE") AND begin:[1970 TO 1990]');
+releaseGroup.query('artist:"Metallica" AND primarytype:"album" AND status:"official"');
 ```
 
