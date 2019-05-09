@@ -1,6 +1,6 @@
 # Release Groups in depth
 
-**Preface: Release Group vs Release**
+**Preface: Release Group vs Release**  
 A "release group" is an album. An album may be released in different regions
 at different dates, be remastered years later, etc. Each represents a different
 "release" inside a release group.
@@ -28,6 +28,7 @@ The Music Brainz api accepts [lucene queries](https://lucene.apache.org/core/4_3
 | release            | Name of a release that appears in the release group|             |
 | status             | Status of a release within this group              |             |
 | tag                | Musical genre, country, etc                        | tags        |
+| type               | Type of the release group before the introduction of primary and secondary type fields |  |
 
 [Music Brainz's docs on release group](https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group).  
 [Music Brainz's definition of release group](https://musicbrainz.org/doc/Release_Group).
@@ -56,7 +57,8 @@ releaseGroup.artist(['metal', 'kings'], 'AND')
 releaseGroup.artist({min: 'A Balance of Power', max: 'Zadok'})
 ```
 
-### Examples
+## Examples
+
 ```js
 // Now, let's say we want to find the Metallica's...
 releaseGroup.artist('Metallica')
@@ -66,11 +68,19 @@ releaseGroup.primaryType('album')
 
 // ...that contain within it oficial releases...
 releaseGroup.status('official')
+
+releaseGroup.search().then(results => console.log(results))
 ```
 
 ### Do it yourself
-Maybe you rather write your own [lucene query](https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description) instead of using our helping methods?
+Or maybe you rather write your own [lucene query](https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description) instead of using our helping methods?
 
 ```js
 releaseGroup.query('artist:"Metallica" AND primarytype:"album" AND status:"official"')
+
+releaseGroup.search().then(results => console.log(results))
 ```
+
+### What it return
+
+It will return an array of objects:

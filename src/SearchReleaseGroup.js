@@ -25,8 +25,9 @@ class SearchReleaseGroup extends Search
     minimalInformation(entry)
     {
         return {
-            'id'        : this.getAttrValue(entry, 'id'),
-            'title'     : this.getElementValue(entry, 'x:title')
+            'rgid'      : this.getAttrValue(entry, 'id'),
+            'title'     : this.getElementValue(entry, 'x:title'),
+            'artist'    : this.getElementValue(entry, 'x:artist-credit/x:name-credit/x:artist/x:name')
         };
     }
 
@@ -34,13 +35,13 @@ class SearchReleaseGroup extends Search
     {
         return {...this.minimalInformation(entry), ...{
             'type'          : this.getAttrValue(entry, 'type'),
-            'primaryType'   : this.getElementValue(entry, 'x:primary-type'),
-            'secondaryType' : this.getElementsValues(entry, 'x:secondary-type-list/x:secondary-type'),
+            'primarytype'   : this.getElementValue(entry, 'x:primary-type'),
+            'secondarytype' : this.getElementsValues(entry, 'x:secondary-type-list/x:secondary-type'),
         }};
     }
 }
 
-SearchReleaseGroup.prototype.type   = 'release-group';
+SearchReleaseGroup.prototype.what   = 'release-group';
 SearchReleaseGroup.prototype.fields =
 {
     rgid                : null, // The release group's Music Brainz's id

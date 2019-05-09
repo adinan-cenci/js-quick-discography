@@ -49,7 +49,8 @@ artist.name(['metal', 'kings'], 'AND')
 artist.country({min: 'AF', max: 'ZW'})
 ```
 
-### Examples
+## Examples
+
 ```js
 // Now, let's say we want to find Power Metal...
 artists.tag('Power metal')
@@ -60,13 +61,58 @@ artists.type('Group')
 // ...in Sweden, Norway, Finland and Germany...
 artists.country(['SE', 'NO', 'FI', 'DE'])
 
-// ...founded between 1980 and 1990
+// ...founded between 1970 and 1990
 artists.begin({min: 1970, max: 1990})
+
+artists.search().then(results => console.log(results))
 ```
 
 ### Do it yourself
-Maybe you rather write your own [lucene query](https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description) instead of using our helping methods?
+Or maybe you rather write your own [lucene query](https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description) instead of using our helping methods?
 
 ```js
 artists.query('tag:"Power metal" AND type:"Group" AND (country:"SE" OR country:"NO" OR country:"FI" OR country:"DE") AND begin:[1970 TO 1990]')
+
+artists.search().then(results => console.log(results))
 ```
+
+### What it return
+
+It will return an array of objects:
+
+```json
+[ 
+    {
+        arid: '563ace2c-6e94-4b64-b544-40099a96b86d',
+        name: 'Brainstorm',
+        type: 'Group',
+        gender: null,
+        area: 'Germany',
+        country: 'DE',
+        ipi: null,
+        begin: '1989',
+        end: '1989',
+        beginarea: 'Heidenheim an der Brenz',
+        endarea: null,
+        tags: [ 'power metal' ],
+        alias: null 
+    },
+    { 
+        arid: '8766cdd6-066c-4b14-ba53-c7958e613bad',
+        name: 'Gamma Ray',
+        ...
+    },
+    {
+        arid: 'd1075cad-33e3-496b-91b0-d4670aabf4f8',
+        name: 'Wizard',
+        ...
+    },
+    {
+        arid: '5f72c22e-8b66-4df7-9566-e3b4a04ec9db',
+        name: 'Conception',
+        ...
+    },
+    ...
+]
+```
+

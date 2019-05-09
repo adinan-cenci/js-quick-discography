@@ -26,7 +26,7 @@ class SearchRecording extends Search
     }
 }
 
-SearchRecording.prototype.type      = 'recording';
+SearchRecording.prototype.what      = 'recording';
 SearchRecording.prototype.fields    =
 {
     rid                 : null, // The recording's Music Brainz id

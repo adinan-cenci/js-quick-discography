@@ -17,7 +17,7 @@ class Search
         this.offset     = 0;
         this.limit      = 50;
         this.dom        = null;
-        this.minimal    = true;
+        this.minimal    = false;
         this.query      = null;
 
         return new Proxy(this, proxy);
@@ -106,7 +106,7 @@ class Search
     getRequestUrl()
     {
         var query = this.getLuceneQuery();
-        return Search.createRequestUrl(this.type, query, this.offset, this.limit);
+        return Search.createRequestUrl(this.what, query, this.offset, this.limit);
     }
 
     newXpathSelect()
@@ -169,7 +169,7 @@ class Search
         if (Array.isArray(args[0])) {
             return {
                 value       : args[0],
-                conjunction : (args[1] ? args[1] : 'OR')
+                conjunction : (args[1] ? args[1] : 'AND')
             };
         }
 
@@ -206,14 +206,29 @@ class Search
     objectToLuceneClause(field, object)
     {
         if (Array.isArray(object.value)) {
-            return '('+field+':"'+object.value.join('" '+object.conjunction+' '+field+':"')+'")';
+            var ar = [];
+
+            for (let x of object.value) {
+                ar.push(this.luceneField(field, x));
+            }
+
+            return '('+ar.join(' '+object.conjunction+' ')+')';
         }
 
         if (this.isObject(object.value)) {
             return field+':['+object.value.min+' TO '+object.value.max+']';
         }
 
-        return field+':"'+object.value+'"';
+        return this.luceneField(field, object.value);
+    }
+
+    luceneField(field, value)
+    {
+        if (value.indexOf('-') == 0) {
+            return '-'+field+':"'+value.substr(1, value.length)+'"';
+        }
+
+        return field+':"'+value+'"';
     }
 
     isObject(data)
@@ -275,7 +290,7 @@ Search.parseInt = function(str)
     if (str === null || str === undefined) {
         return 0;
     }
-    
+
     return parseInt(str.replace(/[^0-9]/g, ''));
 }
 

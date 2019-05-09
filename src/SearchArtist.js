@@ -17,7 +17,7 @@ class SearchArtist extends Search
     minimalInformation(entry)
     {
         return {
-            'id'        : this.getAttrValue(entry, 'id'),
+            'arid'      : this.getAttrValue(entry, 'id'),
             'name'      : this.getElementValue(entry, 'x:name')
         };
     }
@@ -33,16 +33,18 @@ class SearchArtist extends Search
             'ipi'       : this.getElementValue(entry, 'x:ipi-list/x:ipi'),
 
             'begin'     : this.getElementValue(entry, 'x:life-span/x:begin'),
+            'beginarea' : this.getElementValue(entry, 'x:begin-area/x:name'),
+
             'end'       : this.getElementValue(entry, 'x:life-span/x:begin'),
-            'beginArea' : this.getElementValue(entry, 'x:begin-area/x:name'),
-            'endArea'   : this.getElementValue(entry, 'x:end-area/x:name'),
+            'endarea'   : this.getElementValue(entry, 'x:end-area/x:name'),
+
             'tags'      : this.getElementsValues(entry, 'x:tag-list/x:tag/x:name'),
             'alias'     : this.getElementsValues(entry, 'x:alias-list/x:alias')
         }};
     }
 }
 
-SearchArtist.prototype.type     = 'artist';
+SearchArtist.prototype.what     = 'artist';
 SearchArtist.prototype.fields   =
 {
     arid            : null, // Music Brainz id
