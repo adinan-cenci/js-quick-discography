@@ -1,7 +1,5 @@
 # Quick discography
 
-[ ========== DRAFT ========== ]
-
 This is a small library to retrieve basic information from [MusicBrainz](https://musicbrainz.org/), the open music encyclopedia.
 
 ### Searching for an artists
@@ -23,7 +21,7 @@ artists.search()
 .then(results => console.log(results));
 ```
 
-For more details and how to refine your terms, [click here](artists-in-depth.md).
+For more details and how to refine your terms, [click here](docs/artists-in-depth.md).
 
 
 
@@ -45,7 +43,7 @@ releases.search()
 .then(results => console.log(results));
 ```
 
-For more details and how to refine your terms, [click here](release-groups-in-depth.md).
+For more details and how to refine your terms, [click here](docs/release-groups-in-depth.md).
 
 
 
@@ -66,7 +64,7 @@ recordings.search()
 .then(results => console.log(results));
 ```
 
-For more details and how to refine your terms, [click here](recordings-in-depth.md).
+For more details and how to refine your terms, [click here](docs/recordings-in-depth.md).
 
 
 

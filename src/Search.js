@@ -36,7 +36,7 @@ class Search
             method = this.fields[method];
         }
 
-        this.fields[method] = this.newClause(args);
+        this.fields[method] = this.newLuceneClause(args);
 
         return proxy;
     }
@@ -74,7 +74,7 @@ class Search
     async search()
     {
         return Search.makeRequest(this.getRequestUrl(), {
-            headers: { 'user-agent': 'QuickDiscography/0.1.0 ( adinancenci@gmail.com )' }
+            headers: { 'user-agent': 'QuickDiscography/1.0.0 ( adinancenci@gmail.com )' }
         }).then( (xml) =>
         {
             var parser      = new DOMParser();
@@ -164,7 +164,7 @@ class Search
         return nodeAttr.nodeValue;
     }
 
-    newClause(args)
+    newLuceneClause(args)
     {
         if (Array.isArray(args[0])) {
             return {
@@ -197,13 +197,13 @@ class Search
                 continue;
             }
 
-            q.push(this.objectToLuceneClause(pr, this.fields[pr]));
+            q.push(this.luceneClauseToString(pr, this.fields[pr]));
         }
 
         return q.join(' AND ');
     }
 
-    objectToLuceneClause(field, object)
+    luceneClauseToString(field, object)
     {
         if (Array.isArray(object.value)) {
             var ar = [];

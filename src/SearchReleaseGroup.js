@@ -34,9 +34,9 @@ class SearchReleaseGroup extends Search
     completeInformation(entry)
     {
         return {...this.minimalInformation(entry), ...{
-            'type'          : this.getAttrValue(entry, 'type'),
             'primarytype'   : this.getElementValue(entry, 'x:primary-type'),
             'secondarytype' : this.getElementsValues(entry, 'x:secondary-type-list/x:secondary-type'),
+            'type'          : this.getAttrValue(entry, 'type'),
         }};
     }
 }

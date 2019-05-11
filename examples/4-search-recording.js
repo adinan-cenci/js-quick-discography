@@ -1,9 +1,21 @@
 const SearchRecording = require('../src/SearchRecording.js');
+var recordings;
 
-s = new SearchRecording();
-s.rgid('79bd3bdb-6362-4514-81b3-8ceb5c330f01');
+//----------------------
 
+recordings = new SearchRecording();
 
-s.search()
+// Now, let's say we want to find Angra's recordings...
+recordings.artist('Angra')
+
+// ...released between 1993 and 2018...
+recordings.date({min: 1993, max: 2018})
+
+// ...and the title must contain "Holy" or "Judgement" or "Paradise"...
+recordings.title(['Holy', 'Judgement', 'Paradise'], 'OR')
+
+//----------------------
+
+recordings.search()
 .then(results => console.log(results))
 .catch(er => console.log(er));

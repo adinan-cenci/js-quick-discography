@@ -1,9 +1,15 @@
 # Recordings in depth
-Preface: A recording is not a music.  
-A "release group" is an album. An album may be released in different regions
-at different dates, be remastered years later, etc.  
-Each represents a different "release" inside a release group.
+**Preface: Recording, recording groups and releases**  
+A "release group" is an album. An album may be released in different regions at different dates, be remastered years later, etc. Each represents a different "release" inside a release group.
+
+All releases are inserted in a release group even if the group is comprised of a single release.
+
 A "recording" represents a track in a release.
+
+For more details read:
+
+- [Music Brainz's docs on recordings](https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording). 
+- [Music Brainz's definition of recording](https://musicbrainz.org/doc/Recording).
 
 Okay, moving on...
 
@@ -43,9 +49,6 @@ Quick Discography offers a method for every parameter:
 | type            | Type of the release group before the introduction of primary and secondary type fields |  |
 | video           | True to only show video tracks                          |                |
 
-[Music Brainz's docs on recordings](https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording).  
-[Music Brainz's definition of recording](https://musicbrainz.org/doc/Recording).
-
 
 ## How the methods work?
 All the methods listed above work the same, you must inform either:
@@ -58,11 +61,11 @@ What we mean:
 // Must contain "metal" in the name
 recordings.name('metal')
 
-// Must contain "metal" OR "kings" in the name
+// Must contain "metal" AND "kings" in the name
 recordings.name(['metal', 'kings'])
 
-// Must contain "metal" AND "kings" in the name
-recordings.name(['metal', 'kings'], 'AND')
+// Must contain "metal" OR "kings" in the name
+recordings.name(['metal', 'kings'], 'OR')
 
 // Countries: from A to Z ( Argentina to Zimbabwe )
 recordings.name({min: 'AF', max: 'ZW'})
@@ -77,7 +80,7 @@ recordings.artist('Angra')
 recordings.date({min: 1993, max: 2018})
 
 // ...and the title must contain "Holy" or "Judgement" or "Paradise"...
-recordings.title(['Holy', 'Judgement', 'Paradise'])
+recordings.title(['Holy', 'Judgement', 'Paradise'], 'OR')
 ```
 
 ### Do it yourself
@@ -86,3 +89,37 @@ Maybe you rather write your own [lucene query](https://lucene.apache.org/core/4_
 ```js
 recordings.query('(recording:"Holy" OR recording:"Judgement" OR recording:"Paradise") AND artist:"Angra" AND date:[1993 TO 2018]')
 ```
+### What it will return
+
+It will return an array of objects:
+
+```json
+[
+    {
+        rid: '62c375e8-2675-4a53-bf6a-77537259c2a0',
+        title: 'Judgement Day',
+        artist: 'Angra',
+        album: 'Rebirth',
+        position: 8,
+        length: '340173',
+        disambiguation: null
+    },
+    {
+        rid: '03036d58-66db-4e7c-a25a-7646cbaac269',
+        title: 'Paradise',
+        ...
+    },
+    {
+        rid: '2950bb91-183b-460d-a39e-9e3a02d88536',
+        title: 'Holy Land',
+        ...
+    },
+    {
+        rid: 'a339e7b3-a32d-4e33-adb9-a381b9bf81a3',
+        title: 'Holy Land',
+        ...
+    },
+    ...
+]
+```
+

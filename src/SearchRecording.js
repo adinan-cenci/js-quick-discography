@@ -10,6 +10,7 @@ class SearchRecording extends Search
     minimalInformation(entry)
     {
         return {
+            'rid'       : this.getAttrValue(entry, 'id'),
             'title'     : this.getElementValue(entry, 'x:title'),
             'artist'    : this.getElementValue(entry, 'x:artist-credit/x:name-credit/x:artist/x:name'),
             'album'     : this.getElementValue(entry, 'x:release-list/x:release/x:title'),

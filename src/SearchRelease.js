@@ -10,7 +10,7 @@ class SearchRelease extends Search
     minimalInformation(entry)
     {
         return {
-            'id'        : this.getAttrValue(entry, 'id'),
+            'reid'      : this.getAttrValue(entry, 'id'),
             'title'     : this.getElementValue(entry, 'x:title'),
             'artist'    : this.getElementValue(entry, 'x:artist-credit/x:name-credit/x:artist/x:name')
         };

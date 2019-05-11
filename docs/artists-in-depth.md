@@ -1,7 +1,5 @@
 # Artists in depth
 
-[ ========== DRAFT ========== ]
-
 The Music Brainz api accepts [lucene queries](https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description) and allow us to make searches based on a wide range of information. To help you build your query, Quick Discography offers a method for every parameter:
 
 | Parameter    | Description                                                  | Aliases     |
@@ -22,10 +20,10 @@ The Music Brainz api accepts [lucene queries](https://lucene.apache.org/core/4_3
 | tag          | Musical genre, country, others                               | tags        |
 | ipi          | [Interested Parties Information](https://musicbrainz.org/doc/IPI) Code |             |
 
-[Music Brainz's docs on artists](https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist).  
-[Music Brainz's definition of artist](https://musicbrainz.org/doc/Artist).
+For more details read:
 
-
+- [Music Brainz's docs on artists](https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist).  
+- [Music Brainz's definition of artist](https://musicbrainz.org/doc/Artist).
 
 ## How the methods work?
 All the methods listed above work the same, you must inform either:
@@ -39,11 +37,11 @@ What we mean:
 // Must contain "metal" in the name
 artist.name('metal')
 
-// Must contain "metal" OR "kings" in the name
+// Must contain "metal" AND "kings" in the name
 artist.name(['metal', 'kings'])
 
-// Must contain "metal" AND "kings" in the name
-artist.name(['metal', 'kings'], 'AND')
+// Must contain "metal" OR "kings" in the name
+artist.name(['metal', 'kings'], 'OR')
 
 // Countries: from Argentina to Zimbabwe
 artist.country({min: 'AF', max: 'ZW'})
@@ -59,7 +57,7 @@ artists.tag('Power metal')
 artists.type('Group')
 
 // ...in Sweden, Norway, Finland and Germany...
-artists.country(['SE', 'NO', 'FI', 'DE'])
+artists.country(['SE', 'NO', 'FI', 'DE'], 'OR')
 
 // ...founded between 1970 and 1990
 artists.begin({min: 1970, max: 1990})
@@ -76,7 +74,7 @@ artists.query('tag:"Power metal" AND type:"Group" AND (country:"SE" OR country:"
 artists.search().then(results => console.log(results))
 ```
 
-### What it return
+### What it will return
 
 It will return an array of objects:
 
