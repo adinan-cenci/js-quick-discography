@@ -81,6 +81,8 @@ recordings.date({min: 1993, max: 2018})
 
 // ...and the title must contain "Holy" or "Judgement" or "Paradise"...
 recordings.title(['Holy', 'Judgement', 'Paradise'], 'OR')
+
+recordings.search().then(results => console.log(results))
 ```
 
 ### Do it yourself
@@ -88,6 +90,8 @@ Maybe you rather write your own [lucene query](https://lucene.apache.org/core/4_
 
 ```js
 recordings.query('(recording:"Holy" OR recording:"Judgement" OR recording:"Paradise") AND artist:"Angra" AND date:[1993 TO 2018]')
+
+recordings.search().then(results => console.log(results))
 ```
 ### What it will return
 
