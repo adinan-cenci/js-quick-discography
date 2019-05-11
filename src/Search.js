@@ -14,8 +14,8 @@ class Search
 {
     constructor()
     {
-        this.offset     = 0;
-        this.limit      = 50;
+        this.beginning  = 0;
+        this.max        = 50;
         this.dom        = null;
         this.minimal    = false;
         this.query      = null;
@@ -49,13 +49,13 @@ class Search
 
     offset(offset)
     {
-        this.offset = offset;
+        this.beginning = offset;
         return this;
     }
 
     limit(limit)
     {
-        this.limit = limit;
+        this.max = limit;
         return this;
     }
 
@@ -106,7 +106,7 @@ class Search
     getRequestUrl()
     {
         var query = this.getLuceneQuery();
-        return Search.createRequestUrl(this.what, query, this.offset, this.limit);
+        return Search.createRequestUrl(this.what, query, this.beginning, this.max);
     }
 
     newXpathSelect()
@@ -224,7 +224,7 @@ class Search
 
     luceneField(field, value)
     {
-        if (value.indexOf('-') == 0) {
+        if (this.isString(value) && value.indexOf('-') == 0) {
             return '-'+field+':"'+value.substr(1, value.length)+'"';
         }
 
@@ -234,6 +234,11 @@ class Search
     isObject(data)
     {
         return typeof data == 'object';
+    }
+
+    isString(data)
+    {
+        return typeof data === 'string'
     }
 }
 

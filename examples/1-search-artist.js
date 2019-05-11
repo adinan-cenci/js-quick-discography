@@ -12,7 +12,7 @@ artists.tag('Power metal')
 artists.type('Group')
 
 // ...in Sweden, Norway, Finland and Germany...
-artists.country(['SE', 'NO', 'FI', 'DE'])
+artists.country(['SE', 'NO', 'FI', 'DE'], 'OR')
 
 // ...founded between 1970 and 1990
 artists.begin({min: 1970, max: 1990})
