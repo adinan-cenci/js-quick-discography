@@ -17,7 +17,7 @@ class Search
         this.beginning  = 0;
         this.max        = 50;
         this.dom        = null;
-        this.minimal    = false;
+        this.minimum    = false;
         this.query      = null;
 
         return new Proxy(this, proxy);
@@ -61,13 +61,13 @@ class Search
 
     minimal(bool = true)
     {
-        this.minimal = bool;
+        this.minimum = bool;
         return this;
     }
 
     complete(bool = true)
     {
-        this.minimal = !bool;
+        this.minimum = !bool;
         return this;
     }
 
@@ -93,7 +93,7 @@ class Search
     {
         var results    = [];
         var select     = this.newXpathSelect();
-        var getInfo    = this.minimal ? this.minimalInformation.bind(this) : this.completeInformation.bind(this);
+        var getInfo    = this.minimum ? this.minimalInformation.bind(this) : this.completeInformation.bind(this);
 
         select(this.getXpath(), this.dom).forEach( (entry) =>
         {
