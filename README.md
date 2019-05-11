@@ -28,11 +28,33 @@ For more details and how to refine your terms, [click here](docs/artists-in-dept
 ### Searching for release groups ( albums )
 
 ```js
-var releasesGroups = new quickDisc.SearchReleaseGroup();
+var releaseGroups = new quickDisc.SearchReleaseGroup();
 
 //-----------
 
-releasesGroups
+releaseGroups
+.artist('Blind Guardian')   // The artist's name
+.primaryType('Album')       // Album, single, ep, other. Defaults to "album"
+.status('Official');        // Official, promotion, Bootleg, Pseudo-Release.
+
+//-----------
+
+releaseGroups.search()
+.then(results => console.log(results));
+```
+
+For more details and how to refine your terms, [click here](docs/release-groups-in-depth.md).
+
+
+
+### Searching for releases
+
+```js
+var releases = new quickDisc.SearchRelease();
+
+//-----------
+
+releases
 .artist('Blind Guardian')   // The artist's name
 .primaryType('Album')       // Album, single, ep, other. Defaults to "album"
 .status('Official');        // Official, promotion, Bootleg, Pseudo-Release.
@@ -43,7 +65,7 @@ releases.search()
 .then(results => console.log(results));
 ```
 
-For more details and how to refine your terms, [click here](docs/release-groups-in-depth.md).
+For more details and how to refine your terms, [click here](docs/releases-in-depth.md).
 
 
 
