@@ -106,29 +106,25 @@ It will return an array of objects:
 ```json
 [
     {
-        reid: '4c77bcd6-0bb3-4366-815a-cb5ee574eef1',
-        title: 'Reload',
-        artist: 'Metallica',
-        date: null,
-        type: null,
-        status: 'Official'
+        "reid": "4c77bcd6-0bb3-4366-815a-cb5ee574eef1",
+        "title": "Reload",
+        "artist": "Metallica",
+        "date": "null",
+        "type": "null",
+        "status": "Official"
     },
     {
-        reid: '0877d3eb-5d80-4e7d-b5d4-eb36d4dbc3ce',
-        title: 'Reload',
-        ...
+        "reid": "0877d3eb-5d80-4e7d-b5d4-eb36d4dbc3ce",
+        "title": "Reload"
     },
     {
-        reid: 'dd0d1969-8804-429b-aff9-9ee4cdc3e278',
-        title: 'Reload',
-        ...
+        "reid": "dd0d1969-8804-429b-aff9-9ee4cdc3e278",
+        "title": "Reload"
     },
     {
-        reid: 'b8073dfc-1b9c-4a63-adac-695210510fde',
-        title: 'Reload',
-        ...
-    },
-    ...
+        "reid": "b8073dfc-1b9c-4a63-adac-695210510fde",
+        "title": "Reload"
+    }
 ]
 ```
 

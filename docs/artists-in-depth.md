@@ -81,36 +81,32 @@ It will return an array of objects:
 ```json
 [ 
     {
-        arid: '563ace2c-6e94-4b64-b544-40099a96b86d',
-        name: 'Brainstorm',
-        type: 'Group',
-        gender: null,
-        area: 'Germany',
-        country: 'DE',
-        ipi: null,
-        begin: '1989',
-        end: '1989',
-        beginarea: 'Heidenheim an der Brenz',
-        endarea: null,
-        tags: [ 'power metal' ],
-        alias: null 
+        "arid": "563ace2c-6e94-4b64-b544-40099a96b86d",
+        "name": "Brainstorm",
+        "type": "Group",
+        "gender": "null",
+        "area": "Germany",
+        "country": "DE",
+        "ipi": "null",
+        "begin": "1989",
+        "end": "1989",
+        "beginarea": "Heidenheim an der Brenz",
+        "endarea": "null",
+        "tags": [ "power metal" ],
+        "alias": "null"
     },
     { 
-        arid: '8766cdd6-066c-4b14-ba53-c7958e613bad',
-        name: 'Gamma Ray',
-        ...
+        "arid": "8766cdd6-066c-4b14-ba53-c7958e613bad",
+        "name": "Gamma Ray"
     },
     {
-        arid: 'd1075cad-33e3-496b-91b0-d4670aabf4f8',
-        name: 'Wizard',
-        ...
+        "arid": "d1075cad-33e3-496b-91b0-d4670aabf4f8",
+        "name": "Wizard"
     },
     {
-        arid: '5f72c22e-8b66-4df7-9566-e3b4a04ec9db',
-        name: 'Conception',
-        ...
-    },
-    ...
+        "arid": "5f72c22e-8b66-4df7-9566-e3b4a04ec9db",
+        "name": "Conception"
+    }
 ]
 ```
 

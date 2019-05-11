@@ -92,30 +92,25 @@ It will return an array of objects:
 ```json
 [
     {
-        rgid: '8fd32554-02a7-3788-a761-7012e0e75e55',
-        title: 'Reload',
-        artist: 'Metallica',
-        type: 'Album',
-        primarytype: 'Album',
-        secondarytype: null
+        "rgid": "8fd32554-02a7-3788-a761-7012e0e75e55",
+        "title": "Reload",
+        "artist": "Metallica",
+        "type": "Album",
+        "primarytype": "Album",
+        "secondarytype": "null"
     },
     {
-        rgid: '0da580f2-6768-498f-af9d-2becaddf15e0',
-        title: 'Ride the Lightning',
-        ...
+        "rgid": "0da580f2-6768-498f-af9d-2becaddf15e0",
+        "title": "Ride the Lightning"
     },
     {
-        rgid: 'e389b7df-862d-3d91-a612-acca150f6e71',
-        title: 'Load',
-        ...
+        "rgid": "e389b7df-862d-3d91-a612-acca150f6e71",
+        "title": "Load"
     },
     {
-        rgid: 'e683880a-b1d7-3599-9f70-680ac56d8667',
-        title: 'Garage Inc.',
-        ...
+        "rgid": "e683880a-b1d7-3599-9f70-680ac56d8667",
+        "title": "Garage Inc."
     }
-    ...
 ]
-
 ```
 

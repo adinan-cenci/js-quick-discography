@@ -96,30 +96,26 @@ It will return an array of objects:
 ```json
 [
     {
-        rid: '62c375e8-2675-4a53-bf6a-77537259c2a0',
-        title: 'Judgement Day',
-        artist: 'Angra',
-        album: 'Rebirth',
-        position: 8,
-        length: '340173',
-        disambiguation: null
+        "rid": "62c375e8-2675-4a53-bf6a-77537259c2a0",
+        "title": "Judgement Day",
+        "artist": "Angra",
+        "album": "Rebirth",
+        "position": "8",
+        "length": "340173",
+        "disambiguation": "null"
     },
     {
-        rid: '03036d58-66db-4e7c-a25a-7646cbaac269',
-        title: 'Paradise',
-        ...
+        "rid": "03036d58-66db-4e7c-a25a-7646cbaac269",
+        "title": "Paradise"
     },
     {
-        rid: '2950bb91-183b-460d-a39e-9e3a02d88536',
-        title: 'Holy Land',
-        ...
+        "rid": "2950bb91-183b-460d-a39e-9e3a02d88536",
+        "title": "Holy Land"
     },
     {
-        rid: 'a339e7b3-a32d-4e33-adb9-a381b9bf81a3',
-        title: 'Holy Land',
-        ...
-    },
-    ...
+        "rid": "a339e7b3-a32d-4e33-adb9-a381b9bf81a3",
+        "title": "Holy Land"
+    }
 ]
 ```
 
