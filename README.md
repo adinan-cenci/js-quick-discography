@@ -107,5 +107,5 @@ recordings
 Use npm:
 
 ```cdm
-npm i adinan-cenci/js-quick-discography
+npm i adinan-cenci/quick-discography
 ```
