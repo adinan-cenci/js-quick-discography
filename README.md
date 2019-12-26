@@ -34,7 +34,7 @@ var releaseGroups = new quickDisc.SearchReleaseGroup();
 
 releaseGroups
 .artist('Blind Guardian')   // The artist's name
-.primaryType('Album')       // Album, single, ep, other. Defaults to "album"
+.primaryType('Album')       // Album, single, ep, other.
 .status('Official');        // Official, promotion, Bootleg, Pseudo-Release.
 
 //-----------
@@ -56,7 +56,7 @@ var releases = new quickDisc.SearchRelease();
 
 releases
 .artist('Blind Guardian')   // The artist's name
-.primaryType('Album')       // Album, single, ep, other. Defaults to "album"
+.primaryType('Album')       // Album, single, ep, other.
 .status('Official');        // Official, promotion, Bootleg, Pseudo-Release.
 
 //-----------
