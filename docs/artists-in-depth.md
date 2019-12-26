@@ -90,8 +90,8 @@ It will return an array of objects:
         "ipi": "null",
         "begin": "1989",
         "end": "1989",
-        "beginarea": "Heidenheim an der Brenz",
-        "endarea": "null",
+        "beginArea": "Heidenheim an der Brenz",
+        "endArea": "null",
         "tags": [ "power metal" ],
         "alias": "null"
     },

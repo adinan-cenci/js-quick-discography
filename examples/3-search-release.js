@@ -1,24 +1,24 @@
 const SearchRelease = require('../src/SearchRelease.js');
-var release;
+var releases;
 
 //----------------------
 
-release = new SearchRelease();
+releases = new SearchRelease();
 
 // Now, let's say we want to find the Metallica's...
-release.artist('Metallica')
+releases.artist('Metallica')
 
 // ...albuns...
-release.primaryType('album')
+releases.primaryType('album')
 
 // ...that contain within it oficial releases...
-release.status('official')
+releases.status('official')
 
 // ...and no live performances, compilations or demos...
-release.secondarytype(['-live', '-compilation', '-demo'])
+releases.secondarytype(['-live', '-compilation', '-demo'])
 
 //----------------------
 
-release.search()
+releases.search()
 .then(results => console.log(results))
 .catch(er => console.log(er));

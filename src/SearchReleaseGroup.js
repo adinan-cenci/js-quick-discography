@@ -1,4 +1,5 @@
-var Search = require('./Search.js');
+var Search      = require('./Search.js');
+const Helper    = require('./Helper.js');
 
 /*
 Releases and Release Groups are "albums" in a general sense.
@@ -17,6 +18,34 @@ All releases are inserted in a release group
 
 class SearchReleaseGroup extends Search
 {
+    what   = 'release-group';
+
+    fields = [
+        'rgid',                 // The release group's Music Brainz's id
+        'releasegroup',         // The title
+        'releasegroupaccent',   // The title with accented characters retained
+
+        'arid',                 // The artist's Music Brainz id
+        'artist',               // The artist's name
+        'artistname',           // "Real name” of a artist included the credits
+        'creditname',           // In multi-artist credits, as it appears on the cover
+        'primarytype',          // Album, single, ep, other
+        'secondarytype',        // Audiobook, compilation, interview, live...
+        'releases',             // Number of releases in this release group
+        'reid',                 // Music Brainz id of a release in the group
+        'release',              // Name of a release that appears in the release group
+        'status',               // Status of a release that appears within the release group
+        'tag'                   // Musical genre, country, others
+    ];
+
+    fieldAliases = {
+        id                  : 'rgid',
+        artistid            : 'arid',
+        title               : 'releasegroup',
+        name                : 'releasegroup',
+        tags                : 'tag'
+    }
+
     getXpath()
     {
         return '//x:release-group-list/x:release-group';
@@ -25,47 +54,20 @@ class SearchReleaseGroup extends Search
     minimalInformation(entry)
     {
         return {
-            'rgid'      : this.getAttrValue(entry, 'id'),
-            'title'     : this.getElementValue(entry, 'x:title'),
-            'artist'    : this.getElementValue(entry, 'x:artist-credit/x:name-credit/x:artist/x:name')
+            'rgid'      : Helper.getAttrValue(entry, 'id'),
+            'title'     : Helper.getElementValue(entry, 'x:title'),
+            'artist'    : Helper.getElementValue(entry, 'x:artist-credit/x:name-credit/x:artist/x:name')
         };
     }
 
     completeInformation(entry)
     {
         return {...this.minimalInformation(entry), ...{
-            'primarytype'   : this.getElementValue(entry, 'x:primary-type'),
-            'secondarytype' : this.getElementsValues(entry, 'x:secondary-type-list/x:secondary-type'),
-            'type'          : this.getAttrValue(entry, 'type'),
+            'primaryType'   : Helper.getElementValue(entry, 'x:primary-type'),
+            'secondaryType' : Helper.getElementsValues(entry, 'x:secondary-type-list/x:secondary-type'),
+            'type'          : Helper.getAttrValue(entry, 'type'),
         }};
     }
-}
-
-SearchReleaseGroup.prototype.what   = 'release-group';
-SearchReleaseGroup.prototype.fields =
-{
-    rgid                : null, // The release group's Music Brainz's id
-    releasegroup        : null, // The title
-    releasegroupaccent  : null, // The title with accented characters retained
-
-    arid                : null, // The artist's Music Brainz id
-    artist              : null, // The artist's name
-    artistname          : null, // "Real name” of a artist included the credits
-    creditname          : null, // In multi-artist credits, as it appears on the cover
-    primarytype         : null, // Album, single, ep, other
-    secondarytype       : null, // Audiobook, compilation, interview, live...
-    releases            : null, // Number of releases in this release group
-    reid                : null, // Music Brainz id of a release in the group
-    release             : null, // Name of a release that appears in the release group
-    status              : null, // Status of a release that appears within the release group
-    tag                 : null, // Musical genre, country, others
-
-    // aliases
-    id                  : 'rgid',
-    artistid            : 'arid',
-    title               : 'releasegroup',
-    name                : 'releasegroup',
-    tags                : 'tag'
 }
 
 module.exports = SearchReleaseGroup;

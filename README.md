@@ -1,6 +1,6 @@
 # Quick discography
 
-This is a small library to retrieve basic information from [MusicBrainz](https://musicbrainz.org/), the open music encyclopedia.
+A library to retrieve basic information from [MusicBrainz](https://musicbrainz.org/), the open music encyclopedia.
 
 ### Searching for an artists
 

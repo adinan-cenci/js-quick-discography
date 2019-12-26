@@ -1,24 +1,24 @@
 const SearchReleaseGroup = require('../src/SearchReleaseGroup.js');
-var releaseGroup;
+var releaseGroups;
 
 //----------------------
 
-releaseGroup = new SearchReleaseGroup();
+releaseGroups = new SearchReleaseGroup();
 
 // Now, let's say we want to find the Metallica's...
-releaseGroup.artist('Metallica')
+releaseGroups.artist('Metallica')
 
 // ...albuns...
-releaseGroup.primaryType('album')
+releaseGroups.primaryType('album')
 
 // ...that contain within it oficial releases...
-releaseGroup.status('official')
+releaseGroups.status('official')
 
 // ...and no live performances, compilations or demos...
-releaseGroup.secondarytype(['-live', '-compilation', '-demo'])
+releaseGroups.secondarytype(['-live', '-compilation', '-demo'])
 
 //----------------------
 
-releaseGroup.search()
+releaseGroups.search()
 .then(results => console.log(results))
 .catch(er => console.log(er));

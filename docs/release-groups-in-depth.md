@@ -96,8 +96,8 @@ It will return an array of objects:
         "title": "Reload",
         "artist": "Metallica",
         "type": "Album",
-        "primarytype": "Album",
-        "secondarytype": "null"
+        "primaryType": "Album",
+        "secondaryType": "null"
     },
     {
         "rgid": "0da580f2-6768-498f-af9d-2becaddf15e0",

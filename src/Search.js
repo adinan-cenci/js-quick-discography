@@ -1,24 +1,24 @@
-const proxy    = require('./MagicMethodProxy.js');
-const http     = require('http');
-const https    = require('https');
-const url      = require('url');
-var DOMParser  = require('xmldom').DOMParser;
-var xpath      = require('xpath');
+const proxy         = require('./MagicMethodProxy.js');
+const Predicate     = require('./Lucene/Predicate.js');
+const Helper        = require('./Helper.js');
+var DOMParser       = require('xmldom').DOMParser;
+var xpath           = require('xpath');
 
 /*
 https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2
 https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
 */
 
+// abstract class
 class Search
 {
     constructor()
     {
-        this.beginning  = 0;
-        this.max        = 50;
-        this.dom        = null;
-        this.minimum    = false;
-        this.query      = null;
+        this.beginning  = 0;        // pagination
+        this.max        = 50;       // pagination
+        this.minimum    = false;    // return minimal or more complete information
+        this.query      = null;     // lucene query string
+        this.predicate  = new Predicate();
 
         return new Proxy(this, proxy);
     }
@@ -27,23 +27,37 @@ class Search
     {
         method = method.toLowerCase();
 
-        if (this.fields[method] === undefined) {
+        if (this.fieldAliases[method]) {
+            method = this.fieldAliases[method];
+        }
+
+        if (! this.fields.includes(method)) {
             throw 'Method "'+method+'" is undefined';
         }
 
-        // aliases
-        if (typeof this.fields[method] == 'string') {
-            method = this.fields[method];
-        }
-
-        this.fields[method] = this.newLuceneClause(args);
+        args.unshift(method);
+        this.predicate.add.apply(this.predicate, args);
 
         return proxy;
     }
 
+    //-----------------
+
     query(q)
     {
         this.query = q;
+        return this;
+    }
+
+    complete(bool = true)
+    {
+        this.minimum = !bool;
+        return this;
+    }
+
+    minimal(bool = true)
+    {
+        this.minimum = bool;
         return this;
     }
 
@@ -59,43 +73,33 @@ class Search
         return this;
     }
 
-    minimal(bool = true)
-    {
-        this.minimum = bool;
-        return this;
-    }
-
-    complete(bool = true)
-    {
-        this.minimum = !bool;
-        return this;
-    }
+    //-----------------
 
     async search()
     {
-        return Search.makeRequest(this.getRequestUrl(), {
-            headers: { 'user-agent': 'QuickDiscography/1.0.0 ( adinancenci@gmail.com )' }
+        return Helper.makeRequest(this.getRequestUrl(), {
+            headers: { 'user-agent': 'QuickDiscography/1.0.0 ( adinancenci@protonmail.com )' }
         }).then( (xml) =>
         {
             var parser      = new DOMParser();
-            this.dom        = parser.parseFromString(xml, 'text/xml');
+            var dom         = parser.parseFromString(xml, 'text/xml');
 
-            if (! this.dom.documentElement) {
+            if (! dom.documentElement) {
                 throw 'Invalid XML';
                 return [];
             }
 
-            return this.parseXml();
+            return this.readXml(dom);
         });
     }
 
-    parseXml()
+    readXml(dom)
     {
         var results    = [];
-        var select     = this.newXpathSelect();
-        var getInfo    = this.minimum ? this.minimalInformation.bind(this) : this.completeInformation.bind(this);
+        var select     = Helper.newXpathSelect(dom.documentElement);
+        var getInfo    = this.minimum ? minimalInformation.bind(this) : this.completeInformation.bind(this);
 
-        select(this.getXpath(), this.dom).forEach( (entry) =>
+        select(this.getXpath(), dom).forEach( (entry) =>
         {
             results.push(getInfo(entry));
         });
@@ -103,85 +107,12 @@ class Search
         return results;
     }
 
+    //-----------------
+
     getRequestUrl()
     {
         var query = this.getLuceneQuery();
         return Search.createRequestUrl(this.what, query, this.beginning, this.max);
-    }
-
-    newXpathSelect()
-    {
-        var defaultNsUri = this.dom.documentElement.lookupNamespaceURI('');
-        return xpath.useNamespaces({'x': defaultNsUri});
-    }
-
-    getNodes(node, xpath)
-    {
-        var select = this.newXpathSelect();
-        return select(xpath, node);
-    }
-
-    getElementValue(node, xpath)
-    {
-        var nodes = this.getNodes(node, xpath);
-
-        if (! nodes.length) {
-            return null;
-        }
-
-        if (nodes[0].firstChild) {
-            return nodes[0].firstChild.data;
-        }
-
-        return null;
-    }
-
-    getElementsValues(node, xpath)
-    {
-        var nodes = this.getNodes(node, xpath);
-
-        if (! nodes.length) {
-            return null; // in JS empty arrays evaluate to true
-        }
-
-        var values = [];
-
-        for (let x = 0; x < nodes.length; x++) {
-            values.push(nodes[x].firstChild.data);
-        }
-
-        return values;
-    }
-
-    getAttrValue(node, attr)
-    {
-        var nodeAttr = node.getAttributeNode(attr);
-
-        if (! nodeAttr) {
-            return null;
-        }
-
-        return nodeAttr.nodeValue;
-    }
-
-    newLuceneClause(args)
-    {
-        if (Array.isArray(args[0])) {
-            return {
-                value       : args[0],
-                conjunction : (args[1] ? args[1] : 'AND')
-            };
-        }
-
-        if (this.isObject(args[0])) {
-            return {
-                value: args[0],
-            };
-        }
-
-        return {
-            value: args[0]
-        };
     }
 
     getLuceneQuery()
@@ -190,113 +121,13 @@ class Search
             return this.query;
         }
 
-        var q = [];
-
-        for (let pr in this.fields) {
-            if (this.fields[pr] == null || typeof this.fields[pr] == 'string') {
-                continue;
-            }
-
-            q.push(this.luceneClauseToString(pr, this.fields[pr]));
-        }
-
-        return q.join(' AND ');
+        return this.predicate.__toString();
     }
 
-    luceneClauseToString(field, object)
+    static createRequestUrl(type, query, offset = 0, limit = 50)
     {
-        if (Array.isArray(object.value)) {
-            var ar = [];
-
-            for (let x of object.value) {
-                ar.push(this.luceneField(field, x));
-            }
-
-            return '('+ar.join(' '+object.conjunction+' ')+')';
-        }
-
-        if (this.isObject(object.value)) {
-            return field+':['+object.value.min+' TO '+object.value.max+']';
-        }
-
-        return this.luceneField(field, object.value);
+        return 'https://musicbrainz.org/ws/2/'+type+'?query='+encodeURIComponent(query)+'&offset='+offset+'&limit='+limit;
     }
-
-    luceneField(field, value)
-    {
-        if (this.isString(value) && value.indexOf('-') == 0) {
-            return '-'+field+':"'+value.substr(1, value.length)+'"';
-        }
-
-        return field+':"'+value+'"';
-    }
-
-    isObject(data)
-    {
-        return typeof data == 'object';
-    }
-
-    isString(data)
-    {
-        return typeof data === 'string'
-    }
-}
-
-Search.makeRequest = async function(address, options = {})
-{
-    var myUrl     = url.parse(address);
-    var protocol  = myUrl.protocol == 'https:' ? https : http;
-
-    var defaultOptions =
-    {
-        hostname  : myUrl.hostname,
-        port      : myUrl.port,
-        path      : myUrl.path,
-        agent     : false  // Create a new agent just for this one request
-    };
-
-    var options = {...defaultOptions, ...options};
-
-    return new Promise(async function(success, fail)
-    {
-        protocol.get(options, (res) =>
-        {
-            if (res.statusCode !== 200) {
-                fail('Error: ' + res.statusCode);
-            }
-
-            res.setEncoding('utf8');
-
-            let rawData = '';
-
-            res.on('data', function(chunk)
-            {
-                rawData += chunk;
-            });
-
-            res.on('end', function()
-            {
-                success(rawData);
-            });
-
-        }).on('error', (e) => {
-            fail(e.message);
-        });
-    });
-};
-
-Search.createRequestUrl = function(type, query, offset = 0, limit = 50)
-{
-    return 'https://musicbrainz.org/ws/2/'+type+'?query='+encodeURIComponent(query)+'&offset='+offset+'&limit='+limit;
-};
-
-Search.parseInt = function(str)
-{
-    if (str === null || str === undefined) {
-        return 0;
-    }
-
-    return parseInt(str.replace(/[^0-9]/g, ''));
 }
 
 module.exports = Search;
