@@ -1,7 +1,7 @@
 {
   "name": "quick-discography",
-  "version": "1.0.0",
-  "description": "A crude library to retrieve artists' discography information from the Music Brainz database",
+  "version": "2.0.0",
+  "description": "A library to retrieve artists' discography information from the Music Brainz database",
   "main": "index.js",
   "directories": {
     "example": "examples"
