@@ -11,9 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - SearchArtist result proprieties are now camelcase: 
-  "beginarea" became "beginArea"
-  "endarea" became "endArea"
+  "beginarea" became "beginArea".
+  "endarea" became "endArea".
 
 - SearchReleaseGroup result proprieties are now camelcase: 
-  "primarytype" became "primaryType"
-  "secondarytype" became "secondaryType"
+  "primarytype" became "primaryType".
+  "secondarytype" became "secondaryType".
+
+- SearchRelease.primaryType and SearchReleaseGroup.primaryType no longer have 
+  a default value.
